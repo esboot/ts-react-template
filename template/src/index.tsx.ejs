@@ -1,0 +1,9 @@
+<% if (redux && router){ -%>
+<%- include('_part/index-router-redux.tsx') -%>
+<% }else if(redux) { -%>
+<%- include('_part/index-redux.tsx') -%>
+<% }else if(router) { -%>
+<%- include('_part/index-router.tsx') -%>
+<% }else{ -%>
+<%- include('_part/index.tsx') -%>
+<% } -%>
