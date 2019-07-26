@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { hot } from 'react-hot-loader'; // eslint-disable-line
+import { hot } from 'react-hot-loader/root'; // eslint-disable-linee
 import Demo from './component/demo';
 
 const App = () => (
@@ -9,4 +9,4 @@ const App = () => (
 );
 
 // @ts-ignore
-export default hot(module)(App);
+export default hot(App);
