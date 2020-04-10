@@ -3,8 +3,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
 const userConfig = require('./esboot.config');
+const CopyPlugin = require('copy-webpack-plugin');
 
 function initEntry() {
   return {
@@ -19,9 +19,9 @@ function initEntry() {
         filename: `${i.name}.html`,
         title: i.title || 'ESboot App',
         template: i.template || 'template/index.html',
-      })
+      });
     }),
-  }
+  };
 }
 
 module.exports = function () {
@@ -48,7 +48,7 @@ module.exports = function () {
     },
     entry,
     resolve: {
-      extensions: ['.js','.jsx', '.tsx', '.ts', '.css'],
+      extensions: ['.js', '.jsx', '.tsx', '.ts', '.css'],
       alias: {
         'react-dom': '@hot-loader/react-dom'
       }
@@ -58,20 +58,41 @@ module.exports = function () {
     },
     module: {
       rules: [
-        { test: /\.(jpg|gif|png|svg|ico)$/, loader: 'url-loader?name=images/[name].[ext]' },
+        {
+          test: /\.worker\.js$/,
+          use: { loader: 'worker-loader' }
+        },
+        {
+          test: /\.(jpg|gif|png|svg|ico)$/,
+          loader: 'url-loader?name=images/[name].[ext]'
+        },
         {
           test: /\.(t|j)sx?$/,
           include: path.resolve(__dirname, 'src'),
           exclude: /(node_modules|bower_components)/,
           use: [
             {
-              loader: 'babel-loader',
+              loader: 'thread-loader',
               options: {
-                cacheDirectory: true,
+                workers: 4,
+                workerParallelJobs: 50,
+                workerNodeArgs: ['--max-old-space-size=1024'],
+                poolTimeout: 2000,
+                poolParallelJobs: 50,
+                name: 'my-pool'
               }
             },
             {
-              loader: "ts-loader",
+              loader: 'babel-loader',
+              options: {
+                cacheDirectory: false,
+              }
+            },
+            {
+              loader: 'ts-loader',
+              options: {
+                happyPackMode: true // IMPORTANT! use happyPackMode mode to speed-up compilation and reduce errors reported to webpack
+              }
             },
           ],
         },
@@ -85,7 +106,8 @@ module.exports = function () {
           loaders: [
             isDevMode ? 'style-loader?sourceMap' : MiniCssExtractPlugin.loader,
             {
-              loader: 'css-loader', options: {
+              loader: 'css-loader',
+              options: {
                 sourceMap: isDevMode,
                 modules: true,
                 importLoaders: 1,
@@ -93,7 +115,10 @@ module.exports = function () {
               }
             },
             postloader,
-            { loader: 'sass-loader', options: { sourceMap: isDevMode } },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: isDevMode }
+            },
           ],
         },
         {
@@ -101,9 +126,15 @@ module.exports = function () {
           include: path.resolve(__dirname, 'src/global-css/'),
           loaders: [
             isDevMode ? 'style-loader?sourceMap' : MiniCssExtractPlugin.loader,
-            { loader: 'css-loader', options: { sourceMap: isDevMode } },
+            {
+              loader: 'css-loader',
+              options: { sourceMap: isDevMode }
+            },
             postloader,
-            { loader: 'sass-loader', options: { sourceMap: isDevMode } },
+            {
+              loader: 'sass-loader',
+              options: { sourceMap: isDevMode }
+            },
           ],
         },
       ],
@@ -138,6 +169,7 @@ module.exports = function () {
         filename: 'css/[name].[hash:5].css',
         chunkFilename: 'css/[id].[hash:5].css'
       }),
+      new CopyPlugin(userConfig.copyFile),
     ]);
 
     cfg.optimization = {
