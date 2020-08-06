@@ -12,7 +12,7 @@ function appState(state = { data: 'Hello from redux!' }, action) {
 }
 
 <% if(redux && router) { -%>
-export default history => combineReducers({
+export default (history) => combineReducers({
   router: connectRouter(history),
   appState,
 });
