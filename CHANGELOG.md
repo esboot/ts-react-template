@@ -32,6 +32,6 @@
 - [x] 添加`prettier.js`
 - [x] 添加Path alias
 
-# Roladmap
+# Roadmap
 
 - [ ] 添加husky钩子
