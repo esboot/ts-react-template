@@ -1,0 +1,13 @@
+.hello {
+  color: blue;
+}
+
+:global {
+  .globals {
+    color: red;
+  }
+}
+
+.stylename {
+  color: pink;
+}

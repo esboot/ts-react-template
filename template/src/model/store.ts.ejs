@@ -1,0 +1,35 @@
+import { combineReducers, applyMiddleware, compose, createStore } from 'redux';
+<% if(redux && router) { -%>import { connectRouter, routerMiddleware } from 'connected-react-router';<% } %>
+<% if(redux && router) { -%>import { createHashHistory } from 'history';<% } %>
+import thunk from 'redux-thunk';
+
+import appReducer from './reducer';
+
+<% if(redux && router) { -%>export const history = createHashHistory();<% } %>
+
+export interface IRootState {
+  router: any;
+  appState: any;
+}
+
+function configureStore() {
+  const store = createStore(
+    combineReducers<any>({
+      <% if(redux && router) { -%>router: connectRouter(history),<% } %>
+      appState: appReducer
+    }),
+    {},
+    compose(
+      applyMiddleware(
+        <% if(redux && router) { -%>routerMiddleware(history),<% } %>
+        thunk,
+        // ... other middlewares ...
+      ),
+      window.__REDUX_DEVTOOLS_EXTENSION__(),
+    ),
+  );
+
+  return store;
+}
+
+export const store = configureStore();
