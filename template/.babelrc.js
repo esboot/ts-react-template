@@ -1,4 +1,3 @@
-const userConfig = require('./esboot.config');
 const {
   generateScopedNameFactory,
 } = require('@dr.pogodin/babel-plugin-react-css-modules/utils');
@@ -8,9 +7,6 @@ module.exports = {
     [
       '@babel/env',
       {
-        targets: {
-          browsers: userConfig.browsers,
-        },
         modules: false,
         useBuiltIns: 'usage',
         corejs: { version: 3, proposals: true },

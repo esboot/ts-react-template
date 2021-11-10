@@ -52,9 +52,7 @@ const parseScssModule = (options = {}) => {
         postcssOptions: {
           plugins: [
             require('precss')(),
-            require('autoprefixer')({
-              overrideBrowserslist: userConfig.browsers,
-            }),
+            require('autoprefixer')({}),
           ],
         },
       },
