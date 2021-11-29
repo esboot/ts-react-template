@@ -51,7 +51,6 @@ const parseScssModule = (options = {}) => {
         sourceMap: isDevMode,
         postcssOptions: {
           plugins: [
-            require('precss')(),
             require('autoprefixer')({}),
           ],
         },
@@ -109,7 +108,7 @@ const getModulesRules = () => [
       },
     },
     generator: {
-      filename: 'images/[name].[hash][ext]',
+      filename: 'images/[name].[hash:8][ext]',
     },
   },
   {
@@ -195,7 +194,7 @@ const baseCfg = {
 
 const devCfg = {
   devServer: getDevServer(),
-  devtool: 'source-map',
+  devtool: 'cheap-source-map',
 };
 
 const prodCfg = {
