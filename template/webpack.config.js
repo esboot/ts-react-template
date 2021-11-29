@@ -52,9 +52,7 @@ const parseScssModule = (options = {}) => {
         postcssOptions: {
           plugins: [
             require('precss')(),
-            require('autoprefixer')({
-              overrideBrowserslist: userConfig.browsers,
-            }),
+            require('autoprefixer')({}),
           ],
         },
       },
@@ -178,7 +176,6 @@ const baseCfg = {
   performance: {
     hints: false,
   },
-  devtool: isDevMode ? 'source-map' : 'hidden-source-map',
   entry: getEntry(),
   resolve: {
     extensions: ['.ts', '.tsx', '.jsx', '.js'],
@@ -198,6 +195,7 @@ const baseCfg = {
 
 const devCfg = {
   devServer: getDevServer(),
+  devtool: 'source-map',
 };
 
 const prodCfg = {
