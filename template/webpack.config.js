@@ -14,6 +14,8 @@ const {
   // eslint-disable-next-line import/no-unresolved
 } = require('@dr.pogodin/babel-plugin-react-css-modules/utils');
 
+const postcssNormalize = require('postcss-normalize');
+
 const pkg = require('./package.json');
 const userConfig = require('./esboot.config');
 
@@ -50,8 +52,15 @@ const parseScssModule = (options = {}) => {
       options: {
         sourceMap: isDevMode,
         postcssOptions: {
-          plugins: [
-            require('autoprefixer')({}),
+          plugins: () => [
+            require('postcss-flexbugs-fixes'),
+            require('postcss-preset-env')({
+              autoprefixer: {
+                flexbox: 'no-2009',
+              },
+              stage: 3,
+            }),
+            postcssNormalize(),
           ],
         },
       },
