@@ -1,6 +1,7 @@
 import { combineReducers, applyMiddleware, compose, createStore } from 'redux';
 <% if(redux && router) { -%>import { connectRouter, routerMiddleware } from 'connected-react-router';<% } %>
 <% if(redux && router) { -%>import { createHashHistory } from 'history';<% } %>
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import thunk from 'redux-thunk';
 
 import appReducer from './reducer';
@@ -12,6 +13,10 @@ export interface IRootState {
   appState: any;
 }
 
+const composeEnhancers = composeWithDevTools({
+  // options like actionSanitizer, stateSanitizer
+});
+
 function configureStore() {
   const store = createStore(
     combineReducers<any>({
@@ -19,13 +24,12 @@ function configureStore() {
       appState: appReducer
     }),
     {},
-    compose(
+    composeEnhancers(
       applyMiddleware(
         <% if(redux && router) { -%>routerMiddleware(history),<% } %>
         thunk,
         // ... other middlewares ...
       ),
-      window.__REDUX_DEVTOOLS_EXTENSION__(),
     ),
   );
 
