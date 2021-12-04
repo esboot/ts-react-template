@@ -2,7 +2,7 @@ import { createReducer } from 'redux-go';
 
 import { setCount } from './action';
 
-interface IInitialState {
+export interface IInitialState {
   count: number;
 }
 
