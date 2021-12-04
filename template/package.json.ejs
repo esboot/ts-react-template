@@ -11,8 +11,7 @@
     "build": "npm run build:clear && node ./dev/upgrade-version.js && node ./dev/zip.js && npm run preview",
     "preview": "npx http-server dist -p 8900",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot",
-    "build-analyzer": "webpack --profile --json > stats.json",
-    "analyzer": "webpack-bundle-analyzer ./stats.json",
+    "analyzer": "webpack --profile --json=stats.json && webpack-bundle-analyzer ./stats.json",
     "zip": "node ./dev/zip.js"
   },
   "author": "",
