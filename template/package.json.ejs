@@ -5,14 +5,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "eslint": "eslint --format node_modules/eslint-friendly-formatter  --quiet --ext .jsx,.js,.ts,.tsx src/",
     "start": "npm run dev",
     "build:clear": "cross-env NODE_ENV=production webpack",
     "build": "npm run build:clear && node ./dev/upgrade-version.js && node ./dev/zip.js && npm run preview",
     "preview": "npx http-server dist -p 8900",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot",
     "analyzer": "webpack --profile --json=stats.json && webpack-bundle-analyzer ./stats.json",
-    "zip": "node ./dev/zip.js"
+    "zip": "node ./dev/zip.js",
+    "eslint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+    "stylelint": "stylelint src/**/*.scss",
+    "lint-staged": "lint-staged",
+    "commitlint": "npx commitlint --from HEAD~1 --to HEAD",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -44,6 +48,8 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@dr.pogodin/babel-plugin-react-css-modules": "^6.4.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "@types/history": "^4.7.9",
@@ -79,7 +85,8 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^5.4.0",
     "http-server": "^13.0.2",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.1.2",
     "mini-css-extract-plugin": "^2.4.2",
     "node-sass": "^6.0.1",
     "postcss": "^8.3.9",
@@ -105,5 +112,9 @@
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint",
+    "*.{scss,css}": "stylelint"
   }
 }

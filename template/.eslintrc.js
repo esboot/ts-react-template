@@ -77,4 +77,5 @@ module.exports = {
   globals: {
     DEBUG: true,
   },
+  ignorePatterns: ['**/*.js', '!src'],
 };

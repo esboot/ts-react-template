@@ -36,6 +36,23 @@ npx create-esboot ts-react
 
 - `Install all dependence right now?` 是否需要立即安装依赖
 
+# 关于Husky
+
+在依赖安装完毕之后会自动安装[husky](https://github.com/typicode/husky)，但是因为husky依赖git的钩子，所以如果当前项目不是git项目，会有提示：
+
+```sh
+$ husky install
+fatal: not a git repository (or any of the parent directories): .git
+```
+
+这是，husky的钩子也处于不可用状态。如果要启用husky，可依次以下命令：
+
+```sh
+git init
+
+yarn prepare
+```
+
 # 目录结构
 
 ```yml

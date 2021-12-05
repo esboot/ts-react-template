@@ -20,7 +20,7 @@ function configureStore() {
   const store = createStore(
     combineReducers<IRootState>({
       <% if(redux && router) { -%>router: connectRouter(history),<% } %>
-      appState: appReducer
+      appState: appReducer,
     }),
     {},
     composeEnhancers(
