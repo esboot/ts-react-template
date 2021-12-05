@@ -38,20 +38,31 @@ npx create-esboot ts-react
 
 # 关于Husky
 
-在依赖安装完毕之后会自动安装[husky](https://github.com/typicode/husky)，但是因为husky依赖git的钩子，所以如果当前项目不是git项目，会有提示：
+在依赖安装完毕之后会自动安装[husky](https://github.com/typicode/husky)，但是因为husky依赖git的钩子，所以如果当前项目不是git项目，会有如下提示：
 
 ```sh
 $ husky install
 fatal: not a git repository (or any of the parent directories): .git
 ```
 
-这是，husky的钩子也处于不可用状态。如果要启用husky，可依次以下命令：
+这时，husky的钩子也处于不可用状态。如果要启用husky，可依次执行以下命令：
 
 ```sh
 git init
 
 yarn prepare
 ```
+
+这时候可以测试husky是否生效。
+
+```sh
+git add .
+
+git commit -m "test"
+```
+
+husky会先触发`pre-commit`钩子，检测`eslint`和`stylelint`。
+然后触发`commit-msg`钩子，进行 提交信息 检测。上面的`test`信息会提示格式不正确，具体的提交格式可以看`.commitlintrc.js`。
 
 # 目录结构
 
@@ -125,10 +136,6 @@ module.exports = {
 
 启动开发服务器
 
-- `eslint`
-
-开始eslint检测
-
 - `build:clear`
 
 打生产包
@@ -151,3 +158,23 @@ module.exports = {
 - `zip`
 
 压缩生产输出目录
+
+- `eslint`
+
+开始js文件格式检测
+
+- `stylelint`
+
+开始样式文件格式检测
+
+- `lint-staged`
+
+对staged中的文件执行`eslint`和`stylelint`。
+
+- `commitlint`
+
+检测commit信息（一般不用手动执行）
+
+- `prepare`
+
+`prepare`钩子，自动配置husky
