@@ -1,3 +1,12 @@
+# v2.0.2
+
+`2021/12/04`
+
+- 添加README
+- 移除Redux-devtools生产输出
+- 完善TypeScript类型
+- 添加husky
+
 # v2.0.1
 
 `2021/12/01`
@@ -40,4 +49,5 @@
 
 # Roadmap
 
-- [ ] 添加husky钩子
+- [ ] webpack MFSU
+- [ ] webpack磁盘缓存

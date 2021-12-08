@@ -12,7 +12,7 @@ function editData() {
       testVersion: nextVersion,
     },
     null,
-    2
+    2,
   );
 }
 

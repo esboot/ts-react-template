@@ -32,3 +32,4 @@ dist/
 .idea/
 yarn.lock
 .vscode/
+stats.json

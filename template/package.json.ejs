@@ -5,15 +5,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "eslint": "eslint --format node_modules/eslint-friendly-formatter  --quiet --ext .jsx,.js,.ts,.tsx src/",
     "start": "npm run dev",
     "build:clear": "cross-env NODE_ENV=production webpack",
     "build": "npm run build:clear && node ./dev/upgrade-version.js && node ./dev/zip.js && npm run preview",
     "preview": "npx http-server dist -p 8900",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot",
-    "build-analyzer": "webpack --profile --json > stats.json",
-    "analyzer": "webpack-bundle-analyzer ./stats.json",
-    "zip": "node ./dev/zip.js"
+    "analyzer": "webpack --profile --json=stats.json && webpack-bundle-analyzer ./stats.json",
+    "zip": "node ./dev/zip.js",
+    "eslint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+    "stylelint": "stylelint src/**/*.scss",
+    "lint-staged": "lint-staged",
+    "commitlint": "npx commitlint",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +36,7 @@
     <%_ } -%>
     <%_ if (redux){ -%>
     "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
     "redux-go": "^1.0.4",
     "redux-thunk": "^2.3.0",
     <%_ } -%>
@@ -44,8 +48,9 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
     "@dr.pogodin/babel-plugin-react-css-modules": "^6.4.1",
-    "@hot-loader/react-dom": "^17.0.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "@types/history": "^4.7.9",
     "@types/react": "^17.0.30",
@@ -60,7 +65,6 @@
     "@typescript-eslint/eslint-plugin": "^4.30.0",
     "@typescript-eslint/parser": "^4.30.0",
     "adm-zip": "^0.5.9",
-    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "chalk": "^4.1.2",
@@ -81,7 +85,8 @@
     "friendly-errors-webpack-plugin": "^1.7.0",
     "html-webpack-plugin": "^5.4.0",
     "http-server": "^13.0.2",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.1.2",
     "mini-css-extract-plugin": "^2.4.2",
     "node-sass": "^6.0.1",
     "postcss": "^8.3.9",
@@ -91,7 +96,6 @@
     "postcss-preset-env": "^7.0.1",
     "postcss-scss": "^4.0.1",
     "react-refresh": "^0.10.0",
-    "rimraf": "^3.0.2",
     "sass-loader": "^12.2.0",
     "speed-measure-webpack-plugin": "^1.5.0",
     "style-loader": "^3.3.0",
@@ -108,5 +112,9 @@
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.1",
     "webpack-dev-server": "^4.3.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint",
+    "*.{scss,css}": "stylelint"
   }
 }
